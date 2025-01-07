@@ -1,4 +1,8 @@
-// Function to convert any GeoJSON Feature to a Feature with MultiPolygon geometry
+/**
+ * Converts any GeoJSON Feature to a Feature with MultiPolygon geometry.
+ * This is useful when you need to standardize different geometry types
+ * into a single MultiPolygon format for consistent processing.
+ */
 export function convertFeatureToMultiPolygon(feature) {
     if (!feature || !feature.type || feature.type !== 'Feature') {
         throw new Error('Input must be a GeoJSON Feature');
@@ -16,7 +20,11 @@ export function convertFeatureToMultiPolygon(feature) {
     };
 }
 
-// Function to convert any GeoJSON geometry to MultiPolygon
+/**
+ * Converts any GeoJSON geometry type to a MultiPolygon geometry.
+ * Handles conversion from: Point, LineString, Polygon,
+ * MultiPoint, MultiLineString, and existing MultiPolygon.
+ */
 function convertGeometryToMultiPolygon(geometry) {
     if (!geometry || !geometry.type) {
         throw new Error('Invalid geometry input');
@@ -71,6 +79,11 @@ function convertGeometryToMultiPolygon(geometry) {
     }
 }
 
+/**
+ * Converts a MultiPolygon Feature back to its original geometry type.
+ * Requires the original geometry type to be stored in feature.properties.originalGeometryType.
+ * This is typically used to reverse the conversion done by convertFeatureToMultiPolygon.
+ */
 export function convertFeatureFromMultiPolygon(feature) {
     if (!feature || !feature.type || feature.type !== 'Feature') {
         throw new Error('Input must be a GeoJSON Feature');
@@ -92,7 +105,10 @@ export function convertFeatureFromMultiPolygon(feature) {
     };
 }
 
-// Function to convert a MultiPolygon geometry to its original type
+/**
+ * Converts a MultiPolygon geometry back to a specified original geometry type.
+ * Reverses the transformations done by convertGeometryToMultiPolygon.
+ */
 function convertGeometryFromMultiPolygon(geometry, originalType) {
     switch (originalType) {
         case 'MultiPolygon':
